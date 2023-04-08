@@ -1,0 +1,8 @@
+- hosts: terraform-ansible
+  tasks:
+  - name: git clone
+    ansible.builtin.git:
+      repo: https://github.com/victorluizskt/simple-project-react.git
+      dest: /home/ubuntu/react-project
+      version: main
+      force: yes

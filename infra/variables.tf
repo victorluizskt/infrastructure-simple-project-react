@@ -17,7 +17,3 @@ variable "name_instance" {
 variable "geral_access" {
   type = string
 }
-
-variable "user_data" {
-  type = string
-}

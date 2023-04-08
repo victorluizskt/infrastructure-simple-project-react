@@ -5,12 +5,6 @@ module "aws_dev" {
     key = "dev"
     name_instance = "dev"
     geral_access = "access_dev"
-    user_data = <<-EOF
-      #!/bin/bash
-      cd home/ubuntu
-      echo "<h1>Feito com terraform</h1>" > index.html
-      nohup busybox httpd -f -p 8080 &
-    EOF
 }
 
 output "public_ip_dev" {

@@ -1,8 +1,35 @@
 - hosts: terraform-ansible
+  gather_facts: yes
+  become: yes
   tasks:
+  - name: Install the gpg key for nodejs LTS
+    apt_key:
+      url: "https://deb.nodesource.com/gpgkey/nodesource.gpg.key"
+      state: present
+  - name: Install the nodejs LTS repos
+    apt_repository:
+      repo: "deb https://deb.nodesource.com/node_17.x {{ ansible_distribution_release }} main"
+      state: present
+      update_cache: yes
+  - name: Install the nodejs
+    apt:
+      name: nodejs
+      state: present
+  - name: Install xsel
+    apt:
+      name: xsel
+  - name: Install serve
+    shell: npm install -g serve
   - name: git clone
+    become: true
     ansible.builtin.git:
       repo: https://github.com/victorluizskt/simple-project-react.git
       dest: /home/ubuntu/react-project
       version: main
       force: yes
+  - name: install dependencies
+    shell: 'cd /home/ubuntu/react-project; npm install'
+  - name: build project
+    shell: 'cd /home/ubuntu/react-project; sudo npm run build'
+  - name: start project
+    shell: 'cd /home/ubuntu/react-project; nohup serve -s build -l 8000'
